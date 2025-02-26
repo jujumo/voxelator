@@ -1,36 +1,32 @@
 import numpy as np
 import os.path as path
 from jsonargparse import CLI
+from typing import Union, Tuple, Optional
 from voxelator.voxel2stl import voxel2stl
 from voxelator.operators import padding
-
-
-def gyroid2voxel(
-    bound=np.pi * 2,
-    nb_samples=80,
-):
-    r = np.linspace(start=-bound, stop=bound, num=nb_samples)
-    x, y, z = np.meshgrid(r, r, r)
-    # voxel_grid = np.cos(xx) + np.cos(yy) + np.cos(zz)
-    voxel_grid = np.sin(x) * np.cos(y) +\
-                 np.sin(y) * np.cos(z) +\
-                 np.sin(z) * np.cos(x)
-
-    voxel_grid = np.abs(voxel_grid)
-    return voxel_grid
+from voxelator.generators import generate_voxel_grid_gyroid
 
 
 def gyroid2file(
     filepath: str,
     level_value=0.1,
-    bound=np.pi * 2,
-    nb_samples=200,
-    padding_size=10
+    periods: float = 3.0,
+    width: int = 201,
+    depth: Optional[int] = None,
+    height: Optional[int] = None,
+    surface_mode: bool = True
 ):
-    voxel_grid = gyroid2voxel(bound, nb_samples)
-    voxel_grid = padding(voxel_grid, padding_size=padding_size, padding_value=10)
+    height = 301
+    depth = depth if depth is not None else width
+    height = height if height is not None else width
+    grid_size = width, depth, height
+    shift = np.pi/2, 0, 0
+    voxel_grid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=periods, grid_shifts=shift)
+    if surface_mode:
+        voxel_grid = np.abs(voxel_grid)
+    voxel_grid = padding(voxel_grid, padding_size=1, padding_value=2)
     if path.splitext(filepath)[1].upper() == '.STL':
-        voxel2stl(stl_filepath=filepath, voxel_grid=voxel_grid, level_value=level_value)
+        voxel2stl(stl_filepath=filepath, voxel_grid=voxel_grid, level_value=level_value, scale=0.5)
     else:
         np.save(filepath, voxel_grid)
 
