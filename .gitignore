@@ -1,2 +1,6 @@
 *.stl
 .idea
+__pycache__
+.venv
+venv
+voxelator.egg-info

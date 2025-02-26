@@ -1,0 +1,18 @@
+= Voxelator
+
+basic toolkit to play with  voxels and convert to STL for 3d-print.
+
+== tutorial
+
+----
+$> pip install .
+$> gyroid samples/gyroid.stl
+----
+
+
+== terminology
+
+ - voxel grid: is a 3D grid of float numbers, stored in memory in a numpy array,
+ - mesh: is a 3D surface made of triangles,
+ - stl: is a file storing a mesh using stl format,
+ - npy: is a file storing a numpy array file.

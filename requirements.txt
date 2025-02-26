@@ -1,6 +1,0 @@
-numpy
-scikit-image
-numpy-stl
-rich
-trimesh
-pyglet
