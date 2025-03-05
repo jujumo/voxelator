@@ -8,13 +8,14 @@ version="1.0.0"
 dependencies = [
     "jsonargparse", "tqdm", "rich",
     "numpy", "matplotlib", "numpy-stl",
-    "scikit-image", "trimesh", "open3d", "pyglet"
+    "scikit-image", "open3d",
+    "jupyter"
 ] # project  dependencies
 
+
 [project.scripts]
-voxel2stl="voxelator.voxel2stl:voxel2stl_cli"
-stl2voxel="voxelator.stl2voxel2stl:voxel2stl_cli"
-gyroid="voxelator.gyroid2voxel:create_gyroid_cli"
+totem="voxelator.voxel2stl:voxel2stl_cli"
+
 
 [tool.setuptools]
 packages = ["voxelator"]
