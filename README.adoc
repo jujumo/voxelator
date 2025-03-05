@@ -12,7 +12,7 @@ $> python ./tutorial/totem.py --stl samples/totem.stl
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
 ----
 
-As a result, a new version of `samples/totem.py` should spawn and the following window should pop :
+As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
 
 image:samples/totem.png[totem]
 
