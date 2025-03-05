@@ -6,16 +6,16 @@ build-backend = "setuptools.build_meta"
 name = "voxelator"
 version="1.0.0"
 dependencies = [
-    "jsonargparse", "tqdm", "rich",
+    "jsonargparse", "rich",
     "numpy", "matplotlib", "numpy-stl",
-    "scikit-image", "open3d",
-    "jupyter"
+    "scikit-image", "open3d"
 ] # project  dependencies
 
+[project.optional-dependencies]
+jupyter = ["jupyter"]
 
 [project.scripts]
-totem="voxelator.voxel2stl:voxel2stl_cli"
-
+totem="tutorial.totem:create_totem_cli"
 
 [tool.setuptools]
-packages = ["voxelator"]
+packages = ["voxelator", "tutorial"]
