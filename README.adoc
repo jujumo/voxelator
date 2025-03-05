@@ -16,7 +16,8 @@ As a result, a new version of `samples/totem.stl` should spawn and the following
 
 image:samples/totem.png[totem]
 
-
+You can find the stl file on
+https://www.thingiverse.com/thing:5237274[thingiverse.com].
 
 == note on terminology
 
