@@ -1,31 +1,35 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from voxelator.generators import generate_voxel_grid_cylinder, generate_voxel_grid_gyroid
 from voxelator.operators import padding, sigmoid
-from voxelator.convertors import voxel2surface, surface2open3D, surface2stl
-from voxelator.display import display_open3d_window
-
+from voxelator.convertors import voxel2trimesh, trimesh2stl
+from voxelator.display import display_trimesh
+import trimesh
 from jsonargparse import CLI
+from typing import Optional
 
 
 def create_totem(
-    stl: str = 'totem.stl',
-    definition: int = 200,
+    stl: Optional[str] = None,
+    radius_mm: float = 50.,
+    definition: int = 100,
     thickness: float = 0.4
 ):
     grid_size = np.array([1, 1, 2]) * definition + 1
     gyroid_shift = 0, np.pi/2, 0
+    scale = 2 * radius_mm / grid_size[0]
 
-    voxel_cylinder = generate_voxel_grid_cylinder(grid_size=grid_size, scale=1.0)
-    voxel_gyroid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=2.5, grid_shifts=gyroid_shift)
+    voxel_grid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=2.5, grid_shifts=gyroid_shift)
+    voxel_grid = np.abs(voxel_grid) - (thickness / 2.)
+    voxel_grid = padding(voxel_grid, padding_value=1.)
+    mesh = voxel2trimesh(voxel_grid, level=0.0, scale=scale)
 
-    voxel_limit = sigmoid(30*voxel_cylinder)
-    voxel_grid = (1.0-voxel_limit) * (np.abs(voxel_gyroid)) + voxel_limit - thickness / 2.
-    voxel_grid = padding(voxel_grid, padding_size=2, padding_value=2)
-
-    surface = voxel2surface(voxel_grid, level=0.0)
-    surface2stl(stl, surface, scale=60./grid_size[0])
-    mesh3d = surface2open3D(surface)
-    display_open3d_window(mesh3d)
+    cylinder = trimesh.creation.cylinder(radius=radius_mm, height=4*radius_mm, sections=32)
+    mesh = mesh.intersection(cylinder)
+    if stl is not None:
+        trimesh2stl(stl, mesh)
+    if stl is None:
+        display_trimesh(mesh)
 
 
 def create_totem_cli():

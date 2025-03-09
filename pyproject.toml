@@ -7,8 +7,8 @@ name = "voxelator"
 version="1.0.0"
 dependencies = [
     "jsonargparse", "rich",
-    "numpy", "matplotlib", "numpy-stl",
-    "scikit-image", "open3d"
+    "numpy==1.26", "matplotlib",
+    "scikit-image", "trimesh", "manifold3d", "pyrender"
 ] # project  dependencies
 
 [project.optional-dependencies]
