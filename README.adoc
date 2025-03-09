@@ -10,6 +10,7 @@ $> cd voxelator
 $> pip install .
 $> python ./tutorial/totem.py --stl samples/totem.stl
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+$> python ./tutorial/totem.py
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
