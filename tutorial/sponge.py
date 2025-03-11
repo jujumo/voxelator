@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from voxelator.generators import generate_voxel_grid_cylinder, generate_voxel_grid_gyroid
 from voxelator.operators import padding, sigmoid
@@ -9,12 +8,13 @@ from jsonargparse import CLI
 from typing import Optional
 
 
-def create_tile(
+def create_sponge(
     stl: Optional[str] = None,
     periods: float = 3.0,
     radius: float = 50.,
     definition: int = 100,
-    thickness: float = 0.5,
+    thickness: float = 0.3,
+    display: bool = True
 ):
     grid_size = np.array([1, 1, 1]) * definition + 1
     gyroid_shift = 0, np.pi/2, 0
@@ -27,18 +27,18 @@ def create_tile(
 
     sphere = trimesh.creation.icosphere(subdivisions=1)  # trimesh.creation.icosahedron()
     sphere.vertices *= radius
-    sphere.apply_translation((0, 0, -radius ))
+    sphere.apply_translation((0, 0, -radius/1.8))
     mesh = mesh.intersection(sphere)
     if stl is not None:
         trimesh2stl(stl, mesh)
-    if stl is None:
+    if display:
         display_trimesh(mesh)
 
 
-def create_tile_cli():
-    CLI(create_tile)
+def create_sponge_cli():
+    CLI(create_sponge)
 
 
 if __name__ == '__main__':
-    create_tile_cli()
+    create_sponge_cli()
 
