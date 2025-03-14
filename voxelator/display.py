@@ -20,8 +20,6 @@ def displays_voxel(
 
 
 def display_trimesh(mesh):
-    # Create a pyrender scene
-
     # Create a pyrender node from the Trimesh object and add it to the scene
     pyrender_mesh = pyrender.Mesh.from_trimesh(trimesh.Trimesh(vertices=mesh.vertices, faces=mesh.faces))
 
@@ -32,7 +30,6 @@ def display_trimesh(mesh):
 
     # Set up a simple viewer
     viewer = pyrender.Viewer(scene, use_raymond_lighting=True)
-
 
 def display_open3d_window(mesh_open3d):
     o3d.visualization.draw_geometries([mesh_open3d], window_name='Open3D')

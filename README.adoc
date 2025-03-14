@@ -4,6 +4,7 @@ basic toolkit to play with  voxels and convert to STL for 3d-print.
 
 == tutorial
 
+[]
 ----
 $> git clone https://github.com/jujumo/voxelator.git
 $> cd voxelator
@@ -11,14 +12,17 @@ $> pip install .
 $> python ./tutorial/totem.py --stl samples/totem.stl
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
 $> python ./tutorial/totem.py
+$> python ./tutorial/sponge.py
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
 
 image:samples/totem.png[totem]
+image:samples/sponge.jpg[totem]
 
 You can find the stl file on
 https://www.thingiverse.com/thing:5237274[thingiverse.com].
+
 
 == note on terminology
 
