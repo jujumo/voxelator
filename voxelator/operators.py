@@ -27,5 +27,10 @@ def blur(
     voxel_grid = voxel_grid.copy()
     for i in range(3):
         voxel_grid = scipy.ndimage.convolve1d(voxel_grid, k, axis=i)
-
     return voxel_grid
+
+
+def mesh_centering(
+        mesh
+):
+    mesh.apply_translation(-mesh.centroid)  # center mesh to 0.

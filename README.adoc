@@ -11,9 +11,9 @@ $> cd voxelator
 $> pip install .
 $> python ./tutorial/totem.py --stl samples/totem.stl
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
-$> python ./tutorial/totem.py
-$> python ./tutorial/sponge.py
-$> python ./tutorial/qrcode.py --plate_black true ./samples/qrcode.png
+$> python ./tutorial/totem.py --verbose true --stl ./samples/totem.stl
+$> python ./tutorial/sponge.py --verbose true --stl ./samples/sponge.stl
+$> python ./tutorial/qrcode.py --verbose true --plate_black true ./samples/qrcode.png
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :

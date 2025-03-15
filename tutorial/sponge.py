@@ -1,6 +1,6 @@
 import numpy as np
 from voxelator.generators import generate_voxel_grid_cylinder, generate_voxel_grid_gyroid
-from voxelator.operators import padding, sigmoid
+from voxelator.operators import padding, mesh_centering
 from voxelator.convertors import voxel2trimesh, trimesh2stl
 from voxelator.display import display_trimesh
 import trimesh
@@ -24,6 +24,7 @@ def create_sponge(
     voxel_grid = np.abs(voxel_grid) - (thickness / 2.)
     voxel_grid = padding(voxel_grid, padding_value=1.)
     mesh = voxel2trimesh(voxel_grid, level=0.0, scale=scale)
+    mesh_centering(mesh)
 
     sphere = trimesh.creation.icosphere(subdivisions=1)  # trimesh.creation.icosahedron()
     sphere.vertices *= radius

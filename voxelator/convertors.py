@@ -9,8 +9,7 @@ from PIL import Image, ImageOps
 def voxel2trimesh(
         voxel_grid: np.ndarray,
         level: float = 0.0,
-        scale: float = 1.0,
-        center: bool = False
+        scale: float = 1.0
 ) -> Tuple:
     """
     Convert a voxel grid to a mesh (vertices, faces, normals)
@@ -24,8 +23,6 @@ def voxel2trimesh(
     # apply scale
     vertices = vertices * scale
     mesh = trimesh.Trimesh(vertices=vertices, faces=faces, vertex_normals=normals)
-    if center:
-        mesh.apply_translation(-mesh.centroid)  # center mesh to 0.
     return mesh
 
 
