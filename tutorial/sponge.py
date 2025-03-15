@@ -14,7 +14,7 @@ def create_sponge(
     radius: float = 50.,
     definition: int = 100,
     thickness: float = 0.3,
-    display: bool = True
+    verbose: bool = False
 ):
     grid_size = np.array([1, 1, 1]) * definition + 1
     gyroid_shift = 0, np.pi/2, 0
@@ -31,7 +31,7 @@ def create_sponge(
     mesh = mesh.intersection(sphere)
     if stl is not None:
         trimesh2stl(stl, mesh)
-    if display:
+    if verbose:
         display_trimesh(mesh)
 
 

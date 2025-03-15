@@ -7,7 +7,7 @@ name = "voxelator"
 version="1.0.0"
 dependencies = [
     "jsonargparse", "rich",
-    "numpy==1.26", "matplotlib",
+    "numpy==1.26", "matplotlib", "pillow",
     "scikit-image", "trimesh", "manifold3d", "pyrender"
 ] # project  dependencies
 
@@ -16,6 +16,7 @@ jupyter = ["jupyter"]
 
 [project.scripts]
 totem="tutorial.totem:create_totem_cli"
+qrcode="tutorial.qrcode:qrcode_cli"
 
 [tool.setuptools]
 packages = ["voxelator", "tutorial"]

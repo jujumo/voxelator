@@ -1,22 +1,24 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import skimage
-from typing import Tuple
+from typing import Tuple, Optional
 import trimesh
-# import open3d as o3d
-from rich.progress import track
+from PIL import Image, ImageOps
 
 
 def voxel2trimesh(
         voxel_grid: np.ndarray,
         level: float = 0.0,
         scale: float = 1.0,
-        center: bool = True
+        center: bool = False
 ) -> Tuple:
-    # Use marching cubes to obtain the surface mesh
+    """
+    Convert a voxel grid to a mesh (vertices, faces, normals)
+    It uses marching cubes algorithm to obtain the surface mesh.
+    """
     vertices, faces, normals, _ = skimage.measure.marching_cubes(
         voxel_grid,
-        level=level,
-        spacing=(1, 1, 1)
+        level=level
     )
 
     # apply scale
@@ -27,16 +29,14 @@ def voxel2trimesh(
     return mesh
 
 
-# def trimesh2o3d(
-#         mesh
-# ):
-#     # Convert to Open3D mesh
-#     o3d_mesh = o3d.geometry.TriangleMesh()
-#     o3d_mesh.vertices = o3d.utility.Vector3dVector(mesh.vertices)
-#     o3d_mesh.triangles = o3d.utility.Vector3iVector(mesh.faces)
-#     # Optionally, compute vertex normals for better visualization
-#     o3d_mesh.compute_vertex_normals()
-#     return o3d_mesh
+def img2voxel(
+    img_filepath: str
+):
+    img = Image.open(img_filepath)
+    img = ImageOps.grayscale(img)
+    voxel_grid = np.array(img).astype(float) / 255.
+    voxel_grid = np.expand_dims(voxel_grid, axis=2)
+    return voxel_grid
 
 
 def trimesh2stl(

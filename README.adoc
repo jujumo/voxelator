@@ -13,12 +13,19 @@ $> python ./tutorial/totem.py --stl samples/totem.stl
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
 $> python ./tutorial/totem.py
 $> python ./tutorial/sponge.py
+$> python ./tutorial/qrcode.py --plate_black true ./samples/qrcode.png
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
 
+.totem:
 image:samples/totem.png[totem]
-image:samples/sponge.jpg[totem]
+
+.sponge
+image:samples/sponge.jpg[sponge]
+
+.qrcode
+image:samples/qrcode-preview.png[qrcode]
 
 You can find the stl file on
 https://www.thingiverse.com/thing:5237274[thingiverse.com].

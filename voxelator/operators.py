@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 from typing import Tuple, Union
 
 
@@ -15,3 +16,16 @@ def sigmoid(
     voxel_grid
 ):
     return 1. / (1. + np.exp(-voxel_grid))
+
+
+def blur(
+    voxel_grid: np.ndarray,
+    size: int = 10
+):
+    k = np.ones(size) / size
+    # Convolve over all three axes in a for loop
+    voxel_grid = voxel_grid.copy()
+    for i in range(3):
+        voxel_grid = scipy.ndimage.convolve1d(voxel_grid, k, axis=i)
+
+    return voxel_grid

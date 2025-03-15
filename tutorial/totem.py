@@ -13,7 +13,8 @@ def create_totem(
     stl: Optional[str] = None,
     radius_mm: float = 50.,
     definition: int = 100,
-    thickness: float = 0.4
+    thickness: float = 0.4,
+    verbose: bool = False
 ):
     grid_size = np.array([1, 1, 2]) * definition + 1
     gyroid_shift = 0, np.pi/2, 0
@@ -28,7 +29,7 @@ def create_totem(
     mesh = mesh.intersection(cylinder)
     if stl is not None:
         trimesh2stl(stl, mesh)
-    if stl is None:
+    if verbose:
         display_trimesh(mesh)
 
 
