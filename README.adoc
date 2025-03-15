@@ -16,13 +16,13 @@ $> python ./tutorial/qrcode.py --verbose true --plate_black true ./samples/qrcod
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
 
-.totem:
+.totem: this is the interactive display activated by `--verbose true`.
 image:samples/totem.png[totem]
 
-.sponge
+.sponge: an example of a 3D printed sponge model.
 image:samples/sponge.jpg[sponge]
 
-.qrcode
+.qrcode: preview of both white and black objects for a qrcode in meshlab.
 image:samples/qrcode-preview.png[qrcode]
 
 You can find som of the stl files on
