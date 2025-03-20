@@ -8,6 +8,7 @@ from typing import Optional
 import os.path as path
 import trimesh
 
+
 def qrcode2stl(
     img_filepath: str,
     stl_black: Optional[str] = None,
