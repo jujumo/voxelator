@@ -16,7 +16,7 @@ full = ["trimesh[easy]", "open3d"]
 jupyter = ["jupyter"]
 
 [project.scripts]
-totem="tutorial.totem:create_totem_cli"
+gyroid="tutorial.gyroid:create_gyroid_cli"
 qrcode="tutorial.qrcode:qrcode_cli"
 voxelize="tutorial.voxelize:voxelize_cli"
 

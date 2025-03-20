@@ -20,15 +20,19 @@ using the Gyroid as an example.
 
 [source,bash]
 ----
-$> python ./tutorial/totem.py --verbose true --stl ./samples/totem.stl
-$> python ./tutorial/sponge.py --verbose true --stl ./samples/sponge.stl
-$> python ./tutorial/qrcode.py --verbose true --plate_black true ./samples/qrcode.png
+$> gyroid --verbose true --shape pole --size 100 --thickness 0.3 --definition 300 --periods 5.5 samples/totem.stl
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
 
 .totem: this is the interactive display activated by `--verbose true`.
-image:samples/totem.png[totem]
+image:samples/totem-preview.png[totem]
+
+
+[source,bash]
+----
+$> gyroid --verbose true --shape sponge --size 80 --thickness 0.3 --definition 200 --periods 2.8 samples/sponge.stl
+----
 
 .sponge: an example of a 3D printed sponge model.
 image:samples/sponge-preview.jpg[sponge]
@@ -43,7 +47,7 @@ There are various options available, depending on your preferred method for prin
 
 [source,bash]
 ----
-$> python ./tutorial/qrcode.py --verbose true --plate_black true ./samples/qrcode.png
+$> qrcode --verbose true --plate_black true ./samples/qrcode.png
 ----
 
 .qrcode: preview of both white and black objects for a qrcode in meshlab.
@@ -52,7 +56,7 @@ image:samples/qrcode-preview.png[qrcode]
 
 === voxelize
 
-First download or prepare an STL file (e.g https://github.com/CreativeTools/3DBenchy/blob/b542785f9642ab39db8a778a0ccc934b3ebd829a/Single-part/3DBenchy.stl[3DBenchy.stl])
+First download or prepare an STL file (e.g. https://github.com/CreativeTools/3DBenchy/blob/b542785f9642ab39db8a778a0ccc934b3ebd829a/Single-part/3DBenchy.stl[3DBenchy.stl])
 Then, trigger the following:
 
 [source,bash]
