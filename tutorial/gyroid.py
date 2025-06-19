@@ -13,7 +13,7 @@ def create_gyroid(
     stl: str,
     size: float = 50.,
     periods: float = 3.5,
-    thickness: float = 0.4,
+    thickness: float = 1,
     definition: int = 200,
     verbose: bool = False,
     shape: str = 'cube'
@@ -21,9 +21,11 @@ def create_gyroid(
     grid_size = np.array([1, 1, 1]) * (definition // 2) * 2
     gyroid_shift = 0, np.pi/2, 0
     scale = size / grid_size[0]
+    period_size = size / periods
+    iso_surface = 4. * thickness / period_size     # thickness is in mm (same as size)
 
     voxel_grid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=periods, grid_shifts=gyroid_shift)
-    voxel_grid = np.abs(voxel_grid) - (thickness / 2.)  # make a thin surface around 0.
+    voxel_grid = np.abs(voxel_grid) - iso_surface  # make a thin surface around 0.
     voxel_grid = padding(voxel_grid, padding_value=1.)
     mesh = voxel2trimesh(voxel_grid, level=0.0, scale=scale)
     mesh.apply_translation(-mesh.centroid)
