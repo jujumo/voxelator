@@ -36,6 +36,9 @@ def create_gyroid(
     if shape == 'capsule':
         shape_mesh = trimesh.creation.capsule(radius=size / 4., height=size)
         shape_mesh.apply_translation((0, 0, -size/4.))
+    if shape == 'monolith':
+        ratio = 0.5
+        shape_mesh = trimesh.creation.box(extents=(size * ratio, size*ratio, size))
     if shape == 'sponge':
         shape_mesh = trimesh.creation.icosphere(subdivisions=3)  # trimesh.creation.icosahedron()
         shape_mesh.vertices *= size / 2.0
