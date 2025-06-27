@@ -37,8 +37,20 @@ $> gyroid --verbose true --shape sponge --size 80 --thickness 0.3 --definition 2
 .sponge: an example of a 3D printed sponge model.
 image:samples/sponge-preview.jpg[sponge]
 
+
+[source,bash]
+----
+$> gyroid --verbose true --size 150 --thickness 1.2 --periods 5 --shape monolith samples/monolith.stl
+----
+
+.monolith: an example of a 3D printed monolith model.
+image:samples/monolith.jpg[monolith]
+
+
 You can find som of the stl files on
 https://www.thingiverse.com/thing:5237274[thingiverse.com].
+
+
 
 === QRCode
 
