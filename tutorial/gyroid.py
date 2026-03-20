@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from voxelator.generators import generate_voxel_grid_gyroid
 from voxelator.operators import padding, mesh_centering
-from voxelator.convertors import voxel2trimesh, trimesh2stl
+from voxelator.convertors import voxel_to_trimesh, trimesh_to_stl
 from voxelator.display import display_trimesh
 import trimesh
 from jsonargparse import CLI
@@ -27,7 +27,7 @@ def create_gyroid(
     voxel_grid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=periods, grid_shifts=gyroid_shift)
     voxel_grid = np.abs(voxel_grid) - iso_surface  # make a thin surface around 0.
     voxel_grid = padding(voxel_grid, padding_value=1.)
-    mesh = voxel2trimesh(voxel_grid, level=0.0, scale=scale)
+    mesh = voxel_to_trimesh(voxel_grid, level=0.0, scale=scale)
     mesh.apply_translation(-mesh.centroid)
 
     shape_mesh = None
@@ -48,7 +48,7 @@ def create_gyroid(
         mesh = mesh.intersection(shape_mesh)
 
     if stl is not None:
-        trimesh2stl(stl, mesh)
+        trimesh_to_stl(stl, mesh)
     if verbose:
         display_trimesh(mesh)
 

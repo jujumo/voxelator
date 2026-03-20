@@ -6,10 +6,11 @@ import trimesh
 from PIL import Image, ImageOps
 
 
-def voxel2trimesh(
+def voxel_to_trimesh(
         voxel_grid: np.ndarray,
         level: float = 0.0,
-        scale: float = 1.0
+        scale: float = 1.0,
+        gradient_direction='descent',
 ) -> Tuple:
     """
     Convert a voxel grid to a mesh (vertices, faces, normals)
@@ -17,7 +18,8 @@ def voxel2trimesh(
     """
     vertices, faces, normals, _ = skimage.measure.marching_cubes(
         voxel_grid,
-        level=level
+        level=level,
+        gradient_direction=gradient_direction
     )
 
     # apply scale
@@ -26,17 +28,48 @@ def voxel2trimesh(
     return mesh
 
 
-def img2voxel(
+def image_file_to_voxel(
     img_filepath: str
-):
+) -> np.ndarray:
+    """
+    Convert an image file into a voxel grid,
+    see image_to_voxel for details
+    """
     img = Image.open(img_filepath)
+    voxel_grid = image_to_voxel(img)
+    return voxel_grid
+
+
+def image_to_voxel(
+        img: Image.Image,
+) -> np.ndarray:
+    """
+    Convert an image  into a voxel grid,
+    where the grid is single layer of voxels, each cell containing the pixel value of the image.
+    the value is normalized from 0..255 to 0..1
+    """
     img = ImageOps.grayscale(img)
     voxel_grid = np.array(img).astype(float) / 255.
     voxel_grid = np.expand_dims(voxel_grid, axis=2)
     return voxel_grid
 
 
-def trimesh2stl(
+def elevation_to_voxel(
+    elevation_map: np.ndarray,
+):
+    """
+    Convert an elevation array into a voxel grid,
+    The elevation_map is a 2-D array. Each element contains the height of the surface.
+    """
+    max_value = np.max(elevation_map)  # maximum depth
+    # vertical axis (depth)
+    z = np.arange(max_value)
+    # Broadcasting : (H, W, 1) - (1, 1, D)
+    voxels = z[None, None, :] - elevation_map[:, :, None]
+    return voxels
+
+
+def trimesh_to_stl(
         stl_filepath: str,
         mesh,
         scale: float = 1.0
@@ -50,7 +83,7 @@ MARGIN = 1
 ODD = 1
 
 
-def mesh2voxel(
+def mesh_to_voxel(
     mesh,
     voxel_size: float = 1.0
 ) -> np.ndarray:

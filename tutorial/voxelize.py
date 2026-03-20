@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from rich.progress import track
-from voxelator.convertors import voxel2trimesh, mesh2voxel
+from voxelator.convertors import voxel_to_trimesh, mesh_to_voxel
 from voxelator.operators import padding, blur
 from voxelator.display import display_trimesh
 from jsonargparse import CLI
@@ -24,11 +24,11 @@ def voxelize(
     if npy is None:
         npy = path.splitext(stl)[0] + '.npy'
     mesh = trimesh.load(stl)
-    voxel_grid = mesh2voxel(mesh=mesh, voxel_size=voxel_size)
+    voxel_grid = mesh_to_voxel(mesh=mesh, voxel_size=voxel_size)
     np.save(npy, voxel_grid)
 
     if verbose:
-        remesh = voxel2trimesh(voxel_grid, level=0.0)
+        remesh = voxel_to_trimesh(voxel_grid, level=0.0)
         display_trimesh(remesh)
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 from voxelator.operators import padding
-from voxelator.convertors import voxel2trimesh, trimesh2stl, img2voxel
+from voxelator.convertors import voxel_to_trimesh, trimesh_to_stl, image_file_to_voxel
 from voxelator.display import display_trimesh
 from jsonargparse import CLI
 from typing import Optional
@@ -20,7 +20,7 @@ def arr2stl(
     input_ext = path.splitext(arr_filepath)[1].lower()
     voxel_grid = None
     if input_ext == '.png':
-        voxel_grid = img2voxel(arr_filepath)
+        voxel_grid = image_file_to_voxel(arr_filepath)
     if input_ext == '.npy':
         voxel_grid = np.load(voxel_grid)
     if background is not None:
@@ -28,8 +28,8 @@ def arr2stl(
         voxel_grid = np.concatenate([background, voxel_grid], axis=2)
 
     voxel_grid = padding(voxel_grid, padding_size=1, padding_value=2.0)
-    mesh = voxel2trimesh(voxel_grid, level=level, scale=(1, 1, scale))
-    trimesh2stl(stl_filepath, mesh)
+    mesh = voxel_to_trimesh(voxel_grid, level=level, scale=(1, 1, scale))
+    trimesh_to_stl(stl_filepath, mesh)
     if verbose:
         display_trimesh(mesh)
 

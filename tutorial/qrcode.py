@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from voxelator.convertors import voxel2trimesh, trimesh2stl, img2voxel
+from voxelator.convertors import voxel_to_trimesh, trimesh_to_stl, image_file_to_voxel
 from voxelator.operators import padding, blur
 from voxelator.display import display_trimesh
 from jsonargparse import CLI
@@ -26,7 +26,7 @@ def qrcode2stl(
     depth: depth in stl unit (mm)
     gap: size of the gap between white and black mesh in stl unit (mm)
     """
-    voxel_grid = img2voxel(img_filepath)
+    voxel_grid = image_file_to_voxel(img_filepath)
     image_size_voxels = voxel_grid.shape
     if stl_black is None:
         stl_black = path.splitext(img_filepath)[0] + '_w.stl'
@@ -56,11 +56,11 @@ def qrcode2stl(
     voxel_grid = blur(voxel_grid=voxel_grid, size=gap_voxel * 2)
 
     voxel_grid_black = padding(1.0 - voxel_grid, padding_size=1, padding_value=1.0)
-    mesh_black = voxel2trimesh(voxel_grid_black, level=0.25)
+    mesh_black = voxel_to_trimesh(voxel_grid_black, level=0.25)
     voxel_grid_white = padding(voxel_grid, padding_size=1, padding_value=1.0)
-    mesh_white = voxel2trimesh(voxel_grid_white, level=0.25)
-    trimesh2stl(stl_black, mesh_black, scale=1./voxel_per_mm)
-    trimesh2stl(stl_white, mesh_white, scale=1./voxel_per_mm)
+    mesh_white = voxel_to_trimesh(voxel_grid_white, level=0.25)
+    trimesh_to_stl(stl_black, mesh_black, scale=1. / voxel_per_mm)
+    trimesh_to_stl(stl_white, mesh_white, scale=1. / voxel_per_mm)
     if verbose:
         all_mesh = trimesh.util.concatenate([mesh_black, mesh_white])
         display_trimesh(all_mesh)
