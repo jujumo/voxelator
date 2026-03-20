@@ -26,10 +26,11 @@ def display_trimesh(mesh):
     # Wrap the pyrender mesh in a pyrender node
     mesh_node = pyrender.Node(mesh=pyrender_mesh)
     scene = pyrender.Scene()
-    scene.add_node(mesh_node )
+    scene.add_node(mesh_node)
 
     # Set up a simple viewer
     viewer = pyrender.Viewer(scene, use_raymond_lighting=True)
+
 
 def display_open3d_window(mesh_open3d):
     o3d.visualization.draw_geometries([mesh_open3d], window_name='Open3D')
