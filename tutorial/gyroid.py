@@ -5,19 +5,19 @@ from voxelator.operators import padding, mesh_centering
 from voxelator.convertors import voxel_to_trimesh, trimesh_to_stl
 from voxelator.display import display_trimesh
 import trimesh
-from jsonargparse import CLI
+from jsonargparse import CLI, ArgumentParser
 from typing import Optional
 
 
 def create_gyroid(
-    stl: str,
+    stl: Optional[str] = None,
     size: float = 50.,
     periods: float = 3.5,
     thickness: float = 1,
     definition: int = 200,
     invert: bool = False,
-    verbose: bool = False,
-    shape: str = 'cube'
+    shape: str = 'cube',
+    verbosity: int = 0,
 ):
     grid_size = np.array([1, 1, 1]) * (definition // 2) * 2
     gyroid_shift = 0, np.pi/2, 0
@@ -52,12 +52,24 @@ def create_gyroid(
 
     if stl is not None:
         trimesh_to_stl(stl, mesh)
-    if verbose:
+    if verbosity >= 1:
         display_trimesh(mesh)
 
 
+class AliasingParser(ArgumentParser):
+    def add_argument(self, *args, **kwargs):
+        if args == ('--stl',): args += ('-i',)
+        if args == ('--size',): args += ('-s',)
+        if args == ('--periods',): args += ('-p',)
+        if args == ('--thickness',): args += ('-t',)
+        if args == ('--definition',): args += ('-d',)
+        if args == ('--invert',): args += ('-x',)
+        if args == ('--verbosity',): args += ('-v',)
+        return super().add_argument(*args, **kwargs)
+
+
 def create_gyroid_cli():
-    CLI(create_gyroid)
+    CLI(create_gyroid, parser_class=AliasingParser)
 
 
 if __name__ == '__main__':

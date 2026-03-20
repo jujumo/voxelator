@@ -3,14 +3,14 @@ import numpy as np
 from voxelator.convertors import voxel_to_trimesh, trimesh_to_stl, image_file_to_voxel
 from voxelator.operators import padding, blur
 from voxelator.display import display_trimesh
-from jsonargparse import CLI
+from jsonargparse import CLI, ArgumentParser
 from typing import Optional
 import os.path as path
 import trimesh
 
 
-def qrcode2stl(
-    img_filepath: str,
+def qrcode_to_stl(
+    img_filepath: Optional[str] = None,
     stl_black: Optional[str] = None,
     stl_white: Optional[str] = None,
     size: float = -1.0,
@@ -18,7 +18,7 @@ def qrcode2stl(
     gap: float = 0.2,
     plate_black: bool = False,
     plate_depth: float = 1.4,
-    verbose: bool = False
+    verbose: int = 0
 ):
     """
     create a physical (stl) qrcode from an image. Assume the QRCode is black over white background.
@@ -66,8 +66,18 @@ def qrcode2stl(
         display_trimesh(all_mesh)
 
 
+class AliasingParser(ArgumentParser):
+    def add_argument(self, *args, **kwargs):
+        if args == ('--img_filepath',): args += ('-i',)
+        if args == ('--size',): args += ('-s',)
+        if args == ('--depth',): args += ('-d',)
+        if args == ('--gap',): args += ('-g',)
+        if args == ('--verbosity',): args += ('-v',)
+        return super().add_argument(*args, **kwargs)
+
+
 def qrcode_cli():
-    CLI(qrcode2stl)
+    CLI(qrcode_to_stl, parser_class=AliasingParser)
 
 
 if __name__ == '__main__':
