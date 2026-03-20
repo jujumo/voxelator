@@ -15,6 +15,7 @@ def create_gyroid(
     periods: float = 3.5,
     thickness: float = 1,
     definition: int = 200,
+    invert: bool = False,
     verbose: bool = False,
     shape: str = 'cube'
 ):
@@ -26,6 +27,8 @@ def create_gyroid(
 
     voxel_grid = generate_voxel_grid_gyroid(grid_size=grid_size, grid_periods=periods, grid_shifts=gyroid_shift)
     voxel_grid = np.abs(voxel_grid) - iso_surface  # make a thin surface around 0.
+    if invert:
+        voxel_grid *= -1.0
     voxel_grid = padding(voxel_grid, padding_value=1.)
     mesh = voxel_to_trimesh(voxel_grid, level=0.0, scale=scale)
     mesh.apply_translation(-mesh.centroid)
