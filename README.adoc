@@ -20,7 +20,7 @@ using the Gyroid as an example.
 
 [source,bash]
 ----
-$> gyroid --verbose true --shape pole --size 100 --thickness 0.3 --definition 300 --periods 5.5 samples/totem.stl
+$> gyroid --verbosity 1 --shape pole --size 100 --thickness 0.3 --definition 300 --periods 5.5 samples/totem.stl
 ----
 
 As a result, a new version of `samples/totem.stl` should spawn and the following window should pop :
@@ -31,7 +31,7 @@ image:samples/totem-preview.png[totem]
 
 [source,bash]
 ----
-$> gyroid --verbose true --shape sponge --size 80 --thickness 0.3 --definition 200 --periods 2.8 samples/sponge.stl
+$> gyroid --verbosity 1 --shape sponge --size 80 --thickness 0.3 --definition 200 --periods 2.8 samples/sponge.stl
 ----
 
 .sponge: an example of a 3D printed sponge model.
@@ -40,7 +40,7 @@ image:samples/sponge-preview.jpg[sponge]
 
 [source,bash]
 ----
-$> gyroid --verbose true --size 150 --thickness 1.2 --periods 5 --shape monolith samples/monolith.stl
+$> gyroid --verbosity 1 --size 150 --thickness 1.2 --periods 5 --shape monolith samples/monolith.stl
 ----
 
 .monolith: an example of a 3D printed monolith model.
@@ -50,6 +50,16 @@ image:samples/monolith.jpg[monolith]
 You can find som of the stl files on
 https://www.thingiverse.com/thing:5237274[thingiverse.com].
 
+=== Elevation 2 STL
+
+Converts a depth map (intensity = depth) to an stl file.
+
+[source,bash]
+----
+$> elevation2stl -v 1 -i depthmap.png -x 100 -y 100 -z 20 -o face.stl
+----
+
+image:samples/face-preview.png[face]
 
 
 === QRCode
@@ -59,7 +69,7 @@ There are various options available, depending on your preferred method for prin
 
 [source,bash]
 ----
-$> qrcode --verbose true --plate_black true ./samples/qrcode.png
+$> qrcode --verbosity 1 --plate_black true ./samples/qrcode.png
 ----
 
 .qrcode: preview of both white and black objects for a qrcode in meshlab.
@@ -73,7 +83,7 @@ Then, trigger the following:
 
 [source,bash]
 ----
-$> voxelize --verbose true ./samples/3DBenchy.stl
+$> voxelize --verbosity 1 ./samples/3DBenchy.stl
 ----
 
 This should result in a `3DBenchy.npy` file, alongside `.stl`.

@@ -9,17 +9,23 @@ from PIL import Image, ImageOps
 def voxel_to_trimesh(
         voxel_grid: np.ndarray,
         level: float = 0.0,
-        scale: float = 1.0,
+        scale: float | np.ndarray = 1.0,
         gradient_direction='descent',
 ) -> Tuple:
     """
     Convert a voxel grid to a mesh (vertices, faces, normals)
     It uses marching cubes algorithm to obtain the surface mesh.
+
+
+    gradient_direction: * descent : the "object" is defined as values above the iso-level.
+                        * ascent : the "object" is defined as values blow the iso-level.
     """
+
     vertices, faces, normals, _ = skimage.measure.marching_cubes(
-        voxel_grid,
-        level=level,
-        gradient_direction=gradient_direction
+        voxel_grid, # Input data volume to find isosurfaces
+        level=level, # Contour value to search for isosurfaces in volume.
+        gradient_direction=gradient_direction # * descent : Object was greater than exterior
+                                              # ascent : Exterior was greater than object
     )
 
     # apply scale
@@ -56,16 +62,34 @@ def image_to_voxel(
 
 def elevation_to_voxel(
     elevation_map: np.ndarray,
+    add_padding: bool = True
 ):
     """
     Convert an elevation array into a voxel grid,
-    The elevation_map is a 2-D array. Each element contains the height of the surface.
+    The elevation_map is a 2-D array. Each element contains the height of the surface
+    Object negative inside.
     """
-    max_value = np.max(elevation_map)  # maximum depth
+    WORK_TYPE = np.int32
+    if elevation_map.dtype not in [np.uint8, np.uint16]:
+        raise ValueError("Elevation map only works for uint8")
+    nb_bins =  np.iinfo(elevation_map.dtype).max  # maximum depth
+    # then convert to a signed type, to allow negative and positive values on the full range.
+    elevation_map = elevation_map.astype(WORK_TYPE)
+    # elevation_map is stored like [y, x] need to reorder to voxel[x, y, z]
+    elevation_map = np.flip(elevation_map.transpose(), axis=1)
+
     # vertical axis (depth)
-    z = np.arange(max_value)
-    # Broadcasting : (H, W, 1) - (1, 1, D)
+    z = np.arange(nb_bins)
+    # Broadcasting : (H, W, 1) & (1, 1, D)
     voxels = z[None, None, :] - elevation_map[:, :, None]
+    if add_padding:
+        voxels = np.pad(
+            voxels,
+            pad_width=((1, 1), (1, 1), (1, 1)),  # (before, after) for each axis
+            mode='constant',  # or 'edge', 'reflect', etc.
+            constant_values=nb_bins  # Value to pad with (if mode='constant')
+        )
+
     return voxels
 
 

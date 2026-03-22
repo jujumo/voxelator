@@ -18,6 +18,7 @@ full = ["trimesh[easy]", "open3d"]
 gyroid="tutorial.gyroid:create_gyroid_cli"
 qrcode="tutorial.qrcode:qrcode_cli"
 voxelize="tutorial.voxelize:voxelize_cli"
+elevation2stl="tutorial.elevation2stl:elevation2stl_cli"
 arr2stl="voxelator.arr2stl:arr2stl_cli"
 
 [tool.setuptools]
